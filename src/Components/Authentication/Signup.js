@@ -1,6 +1,8 @@
-import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack } from '@chakra-ui/react'
+import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, VStack, useToast } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const Signup = () => {
     const [name, setName] = useState('');
@@ -9,7 +11,51 @@ export const Signup = () => {
     const [cpass, setCpass] = useState('');
     const [pic, setPic] = useState('');
     const [show, setShow] = useState(false);
-    function submitHandler(){
+    const toast = useToast();
+    const navigate = useNavigate();
+
+    const submitHandler = async () => {
+        if (pass !== cpass) {
+            toast({
+                title: "Password and confirm password don't match!",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "top"
+            });
+            return;
+        }
+        try
+        {
+            const config = {
+                headers: {
+                    "Content-type": "application/json"
+                }
+            };
+            const { data } = await axios.post("/api/user/signup", {
+                name, email, pass, pic
+            }, config);
+            console.log(data);
+            toast({
+                title: "Registration is successful!",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "top"
+            });
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            navigate('/chats');
+        }
+        catch (error) {
+            toast({
+                title: "Error!",
+                description: error.response.data.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "top"
+            });
+        }
     }
     return (
         <VStack spacing={'5px'}>
@@ -33,12 +79,12 @@ export const Signup = () => {
                 <InputGroup>
                     <Input
                         placeholder='Enter your Password'
-                        type={show?'text':'password'}
+                        type={show ? 'text' : 'password'}
                         onChange={(e) => setPass(e.target.value)}
-                        />
+                    />
                     <InputRightElement width={'4.5rem'}
                     >
-                        <Button h={'1.75rem'} size={'sm'} onClick={()=>setShow(!show)}>
+                        <Button h={'1.75rem'} size={'sm'} onClick={() => setShow(!show)}>
                             {show ? <ViewIcon /> : <ViewOffIcon />}
                         </Button>
                     </InputRightElement>
@@ -49,16 +95,16 @@ export const Signup = () => {
                 <InputGroup>
                     <Input
                         placeholder='Confirm your Password'
-                        type={show?'text':'password'}
+                        type={show ? 'text' : 'password'}
                         onChange={(e) => setCpass(e.target.value)}
-                        />
+                    />
                     <InputRightElement width={'4.5rem'}
                         onChange={(e) => setCpass(e.target.value)}
-                        >
-                        <Button h={'1.75rem'} size={'sm'} onClick={()=>setShow(!show)}>
+                    >
+                        <Button h={'1.75rem'} size={'sm'} onClick={() => setShow(!show)}>
                             {show ? <ViewIcon /> : <ViewOffIcon />}
-                            </Button>
-                </InputRightElement>
+                        </Button>
+                    </InputRightElement>
                 </InputGroup>
             </FormControl>
             <FormControl>
@@ -73,7 +119,7 @@ export const Signup = () => {
             <Button
                 colorScheme='blue'
                 width={'100%'}
-                style={{marginTop: 15}}
+                style={{ marginTop: 15 }}
                 onClick={submitHandler}
             >
                 Create Account

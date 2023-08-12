@@ -1,10 +1,17 @@
+import { Box } from "@chakra-ui/react";
+import { Chatpage } from "./Components/Chatpage";
 import { Homepage } from "./Components/Homepage";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <Homepage />
-    </div>
+    <Box className="App"
+    >
+      <Routes>
+        <Route path="/chats" element={<Chatpage />} />
+        <Route path="/" element={<Homepage />} />
+      </Routes>
+    </Box>
   );
 }
 
