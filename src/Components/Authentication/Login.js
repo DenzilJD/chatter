@@ -28,7 +28,7 @@ export const Login = () => {
           "Content-type": "application/json"
         }
       };
-      const { data } = await axios.post("/api/user/login", {
+      const { data } = await axios.post("https://chatter-backend-90rs.onrender.com/api/user/login", {
         email, pass
       }, config);
       toast({
