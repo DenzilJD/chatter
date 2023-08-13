@@ -7,6 +7,8 @@ export const ChatProvider = ({ children }) => {
     const [user, setUser] = useState();
     const [selChat, setSelChat] = useState();
     const [chats, setChats] = useState();
+    const [fChats, setFChats] = useState();
+    const [notif, setNotif] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,7 +18,7 @@ export const ChatProvider = ({ children }) => {
             navigate('/');
     }, [navigate]);
 
-    return <ChatContext.Provider value={{ user, setUser, selChat, setSelChat, chats, setChats }}>
+    return <ChatContext.Provider value={{ user, setUser, selChat, setSelChat, chats, setChats, notif, setNotif, fChats, setFChats }}>
         {children}
     </ChatContext.Provider>;
 }

@@ -8,7 +8,7 @@ import { Chats } from './Chats';
 import { CreateGroupModal } from './CreateGroupModal';
 
 export const MyChats = () => {
-  const { user, selChat, setSelChat, chats, setChats } = ChatState();
+  const { user, selChat, setSelChat, chats, setChats, fChats } = ChatState();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState();
   const [loading, setLoading] = useState(false);
@@ -41,7 +41,7 @@ export const MyChats = () => {
       }
     }
     func();
-  }, [user.token]);
+  }, [user.token, fChats]);
 
   const genChats = async (resType, t_id) => {
     setSelChat(t_id);

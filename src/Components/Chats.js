@@ -43,9 +43,9 @@ export const Chats = ({ users, resType, genChats }) => {
         px={3}
         py={2}
         borderRadius='lg'
+        h={{base: '5rem'}}
         key={users._id}
-        bgColor={selChat && selChat._id === users._id ? 'grey' : 'white'}
-        color={selChat && selChat._id === users._id ? 'white' : 'black'}
+        bgColor={selChat && selChat._id === users._id ? 'cyan.100' : 'gray.100'}
         _hover={{ bgColor: selChat && selChat._id === users._id ? 'grey' : 'lightgrey' }}
         onClick={() => {
             if (resType === 'results')

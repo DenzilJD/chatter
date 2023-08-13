@@ -5,27 +5,27 @@ import { ArrowBackIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import io from 'socket.io-client';
 
-const ENDPOINT='http://localhost:5000';
+const ENDPOINT = 'https://chatter-backend-90rs.onrender.com';
 let socket, selChatCmp;
 
 export const ChatBox = () => {
-  const { user, selChat, setSelChat, chats, setChats } = ChatState();
+  const { user, selChat, setSelChat, fChats, setFChats, notif, setNotif } = ChatState();
   const [message, setMessage] = useState();
   const [messages, setMessages] = useState();
   const [loading, setLoading] = useState(false);
   const [connected, setConnected] = useState(false);
   const toast = useToast();
-  
+
   useEffect(() => {
-    socket= io(ENDPOINT);
-    socket.emit('setup',user);
-    socket.on('connection',()=>setConnected(true));
+    socket = io(ENDPOINT);
+    socket.emit('setup', user);
+    socket.on('connection', () => setConnected(true));
   }, []);
-  
-  useEffect(() => {
-    const func = async () => {
-      setLoading(true);
-      try {
+
+  const func = async () => {
+    setLoading(true);
+    try {
+      if (selChat) {
         const config = {
           headers: {
             "Authorization": `Bearer ${user.token}`
@@ -33,39 +33,46 @@ export const ChatBox = () => {
         }
         setMessage('');
         const { data } = await axios.get(`/api/message/${selChat._id}`, config);
-        setMessages(data);
+        if (data)
+          setMessages(data);
       }
-      catch (error) {
-        toast({
-          title: "Error!",
-          description: error.message,
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: "top"
-        });
-      }
-      setLoading(false);
-      socket.emit('join chat',selChat._id);
     }
+    catch (error) {
+      toast({
+        title: "Error!",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top"
+      });
+    }
+    setLoading(false);
+    socket.emit('join chat', selChat._id);
+  }
+
+  useEffect(() => {
+    socket.on("message recieved", newMessage => {
+      if (!selChatCmp || selChatCmp._id !== newMessage.chat._id) {
+        // if (!notif.includes(newMessage)) {
+        //   setNotif([newMessage, ...notif]);
+        // }
+      }
+      else
+        setMessages([...messages, newMessage]);
+    });
+  });
+
+  useEffect(() => {
     if (selChat)
       func();
-    selChatCmp=selChat;
-}, [selChat, user.token]);
+    selChatCmp = selChat;
+  }, [selChat, user.token]);
 
-useEffect(()=>{
-  socket.on("message recieved",newMessage=>{
-    if(!selChatCmp||selChatCmp._id!==newMessage.chat._id)
-    {}
-    else
-      setMessages([...messages,newMessage]);
-  });
-});
-
-const sendMessage = async () => {
-  if (message) {
-    try {
-      const config = {
+  const sendMessage = async () => {
+    if (message) {
+      try {
+        const config = {
           headers: {
             "Content-type": "application/json",
             "Authorization": `Bearer ${user.token}`
@@ -77,8 +84,8 @@ const sendMessage = async () => {
           chatId: selChat._id
         }, config);
         setMessages([...messages, data]);
-        setChats([selChat, ...chats.filter(temp => temp !== selChat)]);
-        socket.emit('new message',data);
+        socket.emit('new message', data);
+        setFChats(!fChats);
       }
       catch (error) {
         toast({
@@ -125,20 +132,20 @@ const sendMessage = async () => {
       mt={!loading ? 'auto' : ''}
       width='100%'
       overflow='scroll'
-        css={{
-          '&::-webkit-scrollbar': {
-            width: '4px'
-          },
-          '&::-webkit-scrollbar-track': {
-            width: '6px'
-          },
-          '&::-webkit-scrollbar-thumb': {
-            background: 'transparent',
-            borderRadius: '24px'
-          }
-        }}
+      css={{
+        '&::-webkit-scrollbar': {
+          width: '4px'
+        },
+        '&::-webkit-scrollbar-track': {
+          width: '6px'
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: 'transparent',
+          borderRadius: '24px'
+        }
+      }}
     >
-      {!loading ? messages?.map(temp => {
+      {!loading ? messages ? messages.map(temp => {
         return <Box
           key={temp._id}
           display='flex'
@@ -154,7 +161,7 @@ const sendMessage = async () => {
             {temp.content}
           </Text>
         </Box>
-      }) : <Spinner
+      }) : '' : <Spinner
         size='xl'
         w={20}
         h={20}
