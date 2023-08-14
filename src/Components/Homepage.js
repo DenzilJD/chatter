@@ -12,24 +12,26 @@ export const Homepage = () => {
             navigate('/chats');
     }, [navigate]);
     
-    return <Container maxW={'xl'}
+    return <Container w='100%'
         centerContent
-        display={'flex'}
-        justifyContent={'center'}
+        display='flex'
+        justifyContent='center'
+        bgColor='orange.200'
     >
-        <Box dir='flex'>
+        <Box display='flex'>
             <Text>
+                Chatter
             </Text>
         </Box>
-        <Box width={'100%'} height={'80%'} borderRadius={'21px'} bgColor='whitesmoke'>
-            <Tabs variant='soft-rounded' colorScheme='cyan'>
-                <TabList mb={'1em'}>
-                    <Tab width={'50%'}>Login</Tab>
-                    <Tab width={'50%'}>Sign Up</Tab>
+        <Box width='100%' height='80%' borderRadius='21px' bgColor='whitesmoke' p='5px'>
+            <Tabs variant='soft-rounded' colorScheme='orange'>
+                <TabList mb='1em'>
+                    <Tab width='50%'>Login</Tab>
+                    <Tab width='50%'>Sign Up</Tab>
                 </TabList>
                 <TabPanels>
-                    <TabPanel>{<Login />}</TabPanel>
-                    <TabPanel>{<Signup />}</TabPanel>
+                    <TabPanel><Login /></TabPanel>
+                    <TabPanel><Signup /></TabPanel>
                 </TabPanels>
             </Tabs>
         </Box>

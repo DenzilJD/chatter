@@ -5,8 +5,7 @@ import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Box className="App"
-    >
+    <Box className="App" bgColor='orange.200'>
       <Routes>
         <Route path="/chats" element={<Chatpage />} />
         <Route path="/" element={<Homepage />} />
