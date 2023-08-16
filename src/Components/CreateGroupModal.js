@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { ChatState } from './Contexts/ChatProvider';
 import { CloseIcon } from '@chakra-ui/icons';
+const base='https://chatter-backend-90rs.onrender.com';
 
 export const CreateGroupModal = ({ children }) => {
     const { user, chats, setChats } = ChatState();
@@ -28,7 +29,7 @@ export const CreateGroupModal = ({ children }) => {
                     Authorization: `Bearer ${user.token}`
                 }
             };
-            const { data } = await axios.get(`/api/user/?search=${temp}`, config);
+            const { data } = await axios.get(`${base}/api/user/?search=${temp}`, config);
             setSearchResults(data);
             setLoading(false);
         }
@@ -81,7 +82,7 @@ export const CreateGroupModal = ({ children }) => {
                     Authorization: `Bearer ${user.token}`
                 }
             };
-            const { data } = await axios.post('/api/chat/group', { users: JSON.stringify(selChat.map(t => t._id)), name }, config);
+            const { data } = await axios.post(`${base}/api/chat/group`, { users: JSON.stringify(selChat.map(t => t._id)), name }, config);
             setChats([data, ...chats]);
         }
         catch (error) {

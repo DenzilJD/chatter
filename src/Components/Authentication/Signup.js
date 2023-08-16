@@ -3,6 +3,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const base='https://chatter-backend-90rs.onrender.com';
 
 export const Signup = () => {
     const [name, setName] = useState('');
@@ -32,7 +33,7 @@ export const Signup = () => {
                     "Content-type": "application/json"
                 }
             };
-            const { data } = await axios.post("/api/user/signup", {
+            const { data } = await axios.post(`${base}/api/user/signup`, {
                 name, email, pass, pic
             }, config);
             console.log(data);

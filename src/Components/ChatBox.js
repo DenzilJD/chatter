@@ -4,8 +4,8 @@ import { ChatState } from './Contexts/ChatProvider'
 import { ArrowBackIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import io from 'socket.io-client';
-
 const ENDPOINT = 'https://chatter-backend-90rs.onrender.com';
+
 let socket, selChatCmp;
 
 export const ChatBox = () => {
@@ -32,7 +32,7 @@ export const ChatBox = () => {
           }
         }
         setMessage('');
-        const { data } = await axios.get(`/api/message/${selChat._id}`, config);
+        const { data } = await axios.get(`${ENDPOINT}/api/message/${selChat._id}`, config);
         if (data)
           setMessages(data);
       }
@@ -79,7 +79,7 @@ export const ChatBox = () => {
           }
         }
         setMessage('');
-        const { data } = await axios.post('/api/message', {
+        const { data } = await axios.post(`${ENDPOINT}/api/message`, {
           content: message,
           chatId: selChat._id
         }, config);

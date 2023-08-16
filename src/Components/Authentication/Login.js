@@ -3,6 +3,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+const base='https://chatter-backend-90rs.onrender.com';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -28,7 +29,7 @@ export const Login = () => {
           "Content-type": "application/json"
         }
       };
-      const { data } = await axios.post("/api/user/login", {
+      const { data } = await axios.post(`${base}/api/user/login`, {
         email, pass
       }, config);
       toast({

@@ -6,6 +6,7 @@ import { ChatState } from './Contexts/ChatProvider';
 import { ChatLoading } from './ChatLoading';
 import { Chats } from './Chats';
 import { CreateGroupModal } from './CreateGroupModal';
+const base='https://chatter-backend-90rs.onrender.com';
 
 export const MyChats = () => {
   const { user, selChat, setSelChat, chats, setChats, fChats } = ChatState();
@@ -24,7 +25,7 @@ export const MyChats = () => {
             Authorization: `Bearer ${user.token}`
           }
         };
-        const { data } = await axios.get('/api/chat/', config);
+        const { data } = await axios.get(`${base}/api/chat/`, config);
         setChats(data);
         setLoading(false);
       }
@@ -57,7 +58,7 @@ export const MyChats = () => {
           Authorization: `Bearer ${user.token}`
         }
       };
-      const { data } = await axios.post('/api/chat/', { userId: t_id }, config);
+      const { data } = await axios.post(`${base}/api/chat/`, { userId: t_id }, config);
       setChats([data, ...chats.filter(temp => temp._id !== data._id)]);
       setSelChat(data._id);
       setSearchResults();
@@ -75,7 +76,7 @@ export const MyChats = () => {
             Authorization: `Bearer ${user.token}`
           }
         };
-        const { data } = await axios.get(`/api/user/?search=${search}`, config);
+        const { data } = await axios.get(`${base}/api/user/?search=${search}`, config);
         setSearchResults(data);
         setLoading(false);
       }
