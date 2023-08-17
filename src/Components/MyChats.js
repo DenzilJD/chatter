@@ -6,7 +6,7 @@ import { ChatState } from './Contexts/ChatProvider';
 import { ChatLoading } from './ChatLoading';
 import { Chats } from './Chats';
 import { CreateGroupModal } from './CreateGroupModal';
-const base = 'http:s//chatterdjd.netlify.app';
+const base = 'https://chatterdjd.netlify.app';
 
 export const MyChats = () => {
   const { user, selChat, setSelChat, chats, setChats, fChats, col1, col2, col3, col4 } = ChatState();
