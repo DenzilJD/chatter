@@ -6,10 +6,10 @@ import { ChatState } from './Contexts/ChatProvider';
 import { ChatLoading } from './ChatLoading';
 import { Chats } from './Chats';
 import { CreateGroupModal } from './CreateGroupModal';
-const base='https://chatter-backend-90rs.onrender.com';
+const base = 'http:s//chatterdjd.netlify.app';
 
 export const MyChats = () => {
-  const { user, selChat, setSelChat, chats, setChats, fChats } = ChatState();
+  const { user, selChat, setSelChat, chats, setChats, fChats, col1, col2, col3, col4 } = ChatState();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState();
   const [loading, setLoading] = useState(false);
@@ -102,7 +102,7 @@ export const MyChats = () => {
     p={3}
     height='85vh'
     border='1px solid black'
-    bgColor='white'
+    bgColor='#189AB4'
   >
     <Box
       display='flex'
@@ -116,20 +116,26 @@ export const MyChats = () => {
         onChange={(e) => handleSearch(e.target.value)}
         variant='pill'
         px='4'
-        border='1px solid black'
+        border={`1px solid ${col1}`}
+        borderTop='0px'
+        borderLeft='0px'
+        borderRight='0px'
+        borderRadius={0}
         bgColor='transparent'
         display='flex'
         maxW='80%'
+        _placeholder={{ color: col4 }}
       />
       <CreateGroupModal>
         <Tooltip
           label='Create a new Group'
         >
           <Button
-            bgColor='white'
+            bgColor='transparent'
+            border={`1px solid ${col1}`}
             fontSize={{ base: '17px', md: '10px', lg: '17px' }}
           >
-            <AddIcon />
+            <AddIcon color={col1} />
           </Button>
         </Tooltip>
       </CreateGroupModal>
@@ -157,7 +163,7 @@ export const MyChats = () => {
         }}
         _hover={{
           '&::-webkit-scrollbar-thumb': {
-            background: 'gray',
+            background: '#189AB4',
             borderRadius: '24px'
           }
         }}
@@ -168,7 +174,7 @@ export const MyChats = () => {
         }) : chats ? chats.map(temp => {
           return <Chats key={temp._id} users={temp} genChats={genChats} resType="chats">
           </Chats>
-        }) : ''}
+        }) : <Box>Search for a user in the Search Bar.<br/>Type words like '@gmail.com'</Box>}
       </Stack>
       }
     </Box>

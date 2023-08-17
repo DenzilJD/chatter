@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const ChatHeader = () => {
     const navigate = useNavigate();
-    const { user, setUser } = ChatState();
+    const { user, setUser, col1, col2, col3, col4 } = ChatState();
     return <Box
         display='flex'
         justifyContent='space-between'
@@ -15,19 +15,20 @@ export const ChatHeader = () => {
         w='100%'
         p='5px 10px 5px 10px'
         borderWidth='5px'
+        borderColor={col1}
     >
-        <Text fontSize='2xl' fontFamily='Work sans'>
+        <Text fontSize='2xl' color={col4}>
             Chatter
         </Text>
-        <div>
+        <Box>
             <Menu>
                 <MenuButton p={1}>
-                    <BellIcon fontSize='2xl' margin={1} />
+                    <BellIcon fontSize='2xl' margin={1} color={col2} />
                 </MenuButton>
                 {/* <MenuList></MenuList> */}
             </Menu>
             <Menu>
-                <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                <MenuButton as={Button} bgColor={col2} rightIcon={<ChevronDownIcon color={col1} />}>
                     <Avatar size='sm' cursor='pointer' name={user.name} />
                 </MenuButton>
                 <MenuList>
@@ -35,16 +36,16 @@ export const ChatHeader = () => {
                         <ProfileModal user={user} />
                     </MenuItem>
                     <MenuItem color='red'
-                    fontWeight={500}
-                    onClick={() => {
-                        localStorage.removeItem("userInfo");
-                        setUser();
-                        navigate('/');
-                    }}>
+                        fontWeight={500}
+                        onClick={() => {
+                            localStorage.removeItem("userInfo");
+                            setUser();
+                            navigate('/');
+                        }}>
                         Log Out
                     </MenuItem>
                 </MenuList>
             </Menu>
-        </div>
+        </Box>
     </Box>
 }

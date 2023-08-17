@@ -3,10 +3,10 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { ChatState } from './Contexts/ChatProvider';
 import { CloseIcon } from '@chakra-ui/icons';
-const base='https://chatter-backend-90rs.onrender.com';
+const base = 'http:s//chatterdjd.netlify.app';
 
 export const CreateGroupModal = ({ children }) => {
-    const { user, chats, setChats } = ChatState();
+    const { user, chats, setChats, col1, col2, col3, col4 } = ChatState();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [search, setSearch] = useState();
     const [name, setName] = useState();

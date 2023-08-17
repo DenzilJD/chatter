@@ -10,6 +10,10 @@ export const ChatProvider = ({ children }) => {
     const [fChats, setFChats] = useState();
     const [notif, setNotif] = useState();
     const navigate = useNavigate();
+    const col1 = '#05445E';
+    const col2 = '#189AB4';
+    const col3 = '#75E6DA';
+    const col4 = '#D4F1F4';
 
     useEffect(() => {
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -18,7 +22,16 @@ export const ChatProvider = ({ children }) => {
             navigate('/');
     }, [navigate]);
 
-    return <ChatContext.Provider value={{ user, setUser, selChat, setSelChat, chats, setChats, notif, setNotif, fChats, setFChats }}>
+    return <ChatContext.Provider value={
+        {
+            user, setUser,
+            selChat, setSelChat,
+            chats, setChats,
+            notif, setNotif,
+            fChats, setFChats,
+            col1, col2, col3, col4
+        }
+    }>
         {children}
     </ChatContext.Provider>;
 }

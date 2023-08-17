@@ -7,7 +7,8 @@ import { ChatBox } from './ChatBox';
 
 export const Chatpage = () => {
     const { user } = ChatState();
-    return <div style={{ width: '100%' }}>
+    const { col1, col2, col3, col4 } = ChatState();
+    return <Box w='100%' bgColor='#05445E'>
         {user && <ChatHeader />}
         <Box
         display='flex'
@@ -18,5 +19,5 @@ export const Chatpage = () => {
             {user && <MyChats />}
             {user && <ChatBox />}
         </Box>
-    </div>
+    </Box>
 }

@@ -4,12 +4,11 @@ import { ChatState } from './Contexts/ChatProvider'
 import { ArrowBackIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import io from 'socket.io-client';
-const ENDPOINT = 'https://chatter-backend-90rs.onrender.com';
-
+const ENDPOINT = 'http:s//chatterdjd.netlify.app';
 let socket, selChatCmp;
 
 export const ChatBox = () => {
-  const { user, selChat, setSelChat, fChats, setFChats, notif, setNotif } = ChatState();
+  const { user, selChat, setSelChat, fChats, setFChats, notif, setNotif, col1, col2, col3, col4 } = ChatState();
   const [message, setMessage] = useState();
   const [messages, setMessages] = useState();
   const [loading, setLoading] = useState(false);
@@ -110,7 +109,8 @@ export const ChatBox = () => {
     height='85vh'
     border='1px solid black'
     ml={{ base: 0, md: '5px' }}
-    bgColor='white'
+    bgColor='#189AB4'
+    color='#D4F1F4'
   >
     <Box
       display='flex'
@@ -132,6 +132,7 @@ export const ChatBox = () => {
       mt={!loading ? 'auto' : ''}
       width='100%'
       overflow='scroll'
+      color='blackAlpha.700'
       css={{
         '&::-webkit-scrollbar': {
           width: '4px'
@@ -177,7 +178,7 @@ export const ChatBox = () => {
       justifyContent='space-between'
       marginBottom='5px'
       width='100%'
-      border='1px solid black'
+      border={`1px solid ${col1}`}
       borderRadius='lg'
     >
       <Input
@@ -187,12 +188,14 @@ export const ChatBox = () => {
         bgColor='transparent'
         display='flex'
         value={message}
+        _placeholder={{color: col4}}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' ? sendMessage() : 0}
       />
       <IconButton
         m='4px'
-        icon={<ArrowRightIcon />}
+        bgColor={col2}
+        icon={<ArrowRightIcon color={col1} />}
         onClick={sendMessage}
       />
     </Box> : ''}

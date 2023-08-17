@@ -3,7 +3,7 @@ import React from 'react'
 import { ChatState } from './Contexts/ChatProvider';
 
 export const Chats = ({ users, resType, genChats }) => {
-    const { user, selChat } = ChatState();
+    const { user, selChat, col1, col2, col3, col4 } = ChatState();
     const func = () => {
         if (resType === 'chats') {
             let temp;
@@ -17,7 +17,7 @@ export const Chats = ({ users, resType, genChats }) => {
                         {temp.name}
                     </Text>
                     <Text>
-                        {users.latestMessage ? users.latestMessage.sender.name + ': ' + users.latestMessage.content : ''}
+                        {users.latestMessage ? <Text><b>{users.latestMessage.sender.name}</b>{': ' + users.latestMessage.content}</Text> : ''}
                     </Text>
                 </Box>
             }
@@ -43,10 +43,13 @@ export const Chats = ({ users, resType, genChats }) => {
         px={3}
         py={2}
         borderRadius='lg'
-        h={{base: '5rem'}}
+        h={{ base: '5rem' }}
         key={users._id}
-        bgColor={selChat && selChat._id === users._id ? 'cyan.100' : 'gray.100'}
-        _hover={{ bgColor: selChat && selChat._id === users._id ? 'grey' : 'lightgrey' }}
+        bgColor={selChat && selChat._id === users._id ? '#D14905' : col1}
+        color={selChat && selChat._id === users._id ? col4 : col4}
+        _hover={{
+            bgColor: selChat && selChat._id === users._id ? '#D14905' : '#F09440'
+        }}
         onClick={() => {
             if (resType === 'results')
                 genChats(resType, users._id);
