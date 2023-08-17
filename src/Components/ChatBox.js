@@ -4,7 +4,7 @@ import { ChatState } from './Contexts/ChatProvider'
 import { ArrowBackIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import io from 'socket.io-client';
-const ENDPOINT = 'https://chatterdjd.netlify.app';
+const ENDPOINT = 'https://chatter-backend-90rs.onrender.com';
 let socket, selChatCmp;
 
 export const ChatBox = () => {

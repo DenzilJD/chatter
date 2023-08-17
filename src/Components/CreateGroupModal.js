@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { ChatState } from './Contexts/ChatProvider';
 import { CloseIcon } from '@chakra-ui/icons';
-const base = 'https://chatterdjd.netlify.app';
+const base = 'https://chatter-backend-90rs.onrender.com';
 
 export const CreateGroupModal = ({ children }) => {
     const { user, chats, setChats, col1, col2, col3, col4 } = ChatState();
