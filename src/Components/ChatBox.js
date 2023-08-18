@@ -16,7 +16,7 @@ export const ChatBox = () => {
   const [connected, setConnected] = useState(false);
   const bottomRef = useRef(null);
   const toast = useToast();
-  
+
   const func = async () => {
     try {
       setLoading(true);
@@ -29,28 +29,28 @@ export const ChatBox = () => {
         setMessage('');
         const { data } = await axios.get(`${ENDPOINT}/api/message/${selChat._id}`, config);
         if (data)
-        setMessages(data);
+          setMessages(data);
+      }
+      setLoading(false);
+      socket.emit('join chat', selChat._id);
     }
-    setLoading(false);
-    socket.emit('join chat', selChat._id);
+    catch (error) {
+      toast({
+        title: "Error!",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top"
+      });
+      setLoading(false);
+    }
   }
-  catch (error) {
-    toast({
-      title: "Error!",
-      description: error.message,
-      status: "error",
-      duration: 5000,
-      isClosable: true,
-      position: "top"
-    });
-    setLoading(false);
-  }
-}
 
-useEffect(() => {
-  if (selChat)
-  func();
-selChatCmp = selChat;
+  useEffect(() => {
+    if (selChat)
+      func();
+    selChatCmp = selChat;
   }, [selChat, user.token]);
 
   useEffect(() => {
@@ -92,8 +92,7 @@ selChatCmp = selChat;
         }, config);
         setMessages([...messages, data]);
         socket.emit('new message', data);
-        if (data)
-        {
+        if (data) {
           // console.log(data.chat);
           // setChats([data.chat, ...chats.filter(temp => temp._id !== data.chat._id)]);
         }

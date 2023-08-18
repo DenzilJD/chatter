@@ -15,7 +15,7 @@ export const Chats = ({ users, resType, genChats }) => {
                     });
                     return <Box>
                         <Text fontSize='25px'>
-                            {temp.name}
+                            {temp ? temp.name : ''}
                         </Text>
                         <Text>
                             {users.latestMessage ? <><b>{users.latestMessage.sender.name}</b>{': ' + users.latestMessage.content}</> : ''}

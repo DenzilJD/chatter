@@ -9,11 +9,13 @@ const base = 'https://chatter-backend-90rs.onrender.com';
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
+  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
 
   const submitHandler = async () => {
+    setLoading(true);
     if (!email || !pass) {
       toast({
         title: "Please fill all the required fields!",
@@ -22,6 +24,7 @@ export const Login = () => {
         isClosable: true,
         position: "top"
       });
+      setLoading(false);
       return;
     }
     try {
@@ -53,6 +56,7 @@ export const Login = () => {
         position: "top"
       });
     }
+    setLoading(false);
   }
   return (
     <VStack>
@@ -96,6 +100,13 @@ export const Login = () => {
       >
         Log In
       </Button>
+      {loading ? <Spinner
+        size='xl'
+        w={20}
+        h={20}
+        alignSelf='center'
+        mb='30vh'
+      /> : ''}
     </VStack>
   )
 }

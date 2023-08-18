@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { ChatState } from './Contexts/ChatProvider';
 import { ProfileModal } from './ProfileModal';
@@ -7,7 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 export const ChatHeader = () => {
     const navigate = useNavigate();
-    const { user, setUser, setSelChat, notif, setNotif, col1, col2, col3, col4 } = ChatState();
+    const { user, setUser, selChat, setSelChat, notif, setNotif, col1, col2, col3, col4 } = ChatState();
+
+    useEffect(() => {
+        setNotif(notif.filter(temp => temp._id !== selChat._id));
+    }, [selChat]);
+
     return <Box
         display='flex'
         justifyContent='space-between'

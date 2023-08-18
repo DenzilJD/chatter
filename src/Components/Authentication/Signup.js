@@ -12,11 +12,13 @@ export const Signup = () => {
     const [pass, setPass] = useState('');
     const [cpass, setCpass] = useState('');
     const [pic, setPic] = useState('');
+    const [loading, setLoading] = useState(false);
     const [show, setShow] = useState(false);
     const toast = useToast();
     const navigate = useNavigate();
 
     const submitHandler = async () => {
+        setLoading(true);
         if (pass !== cpass) {
             toast({
                 title: "Password and confirm password don't match!",
@@ -25,6 +27,7 @@ export const Signup = () => {
                 isClosable: true,
                 position: "top"
             });
+            setLoading(false);
             return;
         }
         try {
@@ -57,6 +60,7 @@ export const Signup = () => {
                 position: "top"
             });
         }
+        setLoading(false);
     }
     return (
         <VStack spacing={'5px'}>
@@ -125,6 +129,13 @@ export const Signup = () => {
             >
                 Create Account
             </Button>
+            {loading ? <Spinner
+                size='xl'
+                w={20}
+                h={20}
+                alignSelf='center'
+                mb='30vh'
+            /> : ''}
         </VStack>
     )
 }
