@@ -1,11 +1,11 @@
-import { Button, Container, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Container, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
 import { ChatState } from './Contexts/ChatProvider';
 
 export const ProfileModal = ({ user }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { col1, col2, col3, col4 } = ChatState();
-    return <div>
+    return <Box>
         <Container onClick={onOpen}
             padding={0}
         >
@@ -28,5 +28,5 @@ export const ProfileModal = ({ user }) => {
                 </ModalFooter>
             </ModalContent>
         </Modal>
-    </div>
+    </Box>
 }

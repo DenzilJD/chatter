@@ -8,21 +8,23 @@ export const Chats = ({ users, resType, genChats }) => {
         if (resType === 'chats') {
             let temp;
             if (!users.isGroup) {
-                temp = users.users.find(temp => {
-                    if (user._id !== temp._id)
-                        return temp;
-                });
-                return <Box>
-                    <Text fontSize='25px'>
-                        {temp.name}
-                    </Text>
-                    <Text>
-                        {users.latestMessage ? <Text><b>{users.latestMessage.sender.name}</b>{': ' + users.latestMessage.content}</Text> : ''}
-                    </Text>
-                </Box>
+                if (users.users) {
+                    temp = users.users.find(temp => {
+                        if (user._id !== temp._id)
+                            return temp;
+                    });
+                    return <Box>
+                        <Text fontSize='25px'>
+                            {temp.name}
+                        </Text>
+                        <Text>
+                            {users.latestMessage ? <><b>{users.latestMessage.sender.name}</b>{': ' + users.latestMessage.content}</> : ''}
+                        </Text>
+                    </Box>
+                }
             }
             else
-                return <Box>
+                return <Box overflowWrap='break-word'>
                     <Text fontSize='25px'>
                         {users.chatName}
                     </Text>

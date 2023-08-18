@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const ChatHeader = () => {
     const navigate = useNavigate();
-    const { user, setUser, col1, col2, col3, col4 } = ChatState();
+    const { user, setUser, setSelChat, notif, setNotif, col1, col2, col3, col4 } = ChatState();
     return <Box
         display='flex'
         justifyContent='space-between'
@@ -23,9 +23,24 @@ export const ChatHeader = () => {
         <Box>
             <Menu>
                 <MenuButton p={1}>
-                    <BellIcon fontSize='2xl' margin={1} color={col2} />
+                    <BellIcon fontSize='2xl' margin={1} color={notif && notif.length > 0 ? 'red' : col2} />
                 </MenuButton>
-                {/* <MenuList></MenuList> */}
+                <MenuList color='black'>
+                    {notif && notif.length > 0 ? notif.map(temp => {
+                        return <MenuItem key={temp._id} onClick={() => {
+                            setNotif(notif.filter(t => t._id !== temp._id));
+                            setSelChat(temp.chat);
+                        }}>
+                            <Box>
+                                <b>{temp.chat.isGroup ? temp.chat.chatName
+                                    : temp.chat.users.find(temp => temp._id !== user._id).name}</b><br />
+                                {temp.sender.name}<br />
+                                {temp.content}
+                            </Box>
+                        </MenuItem>
+                    }) : <Text p='5px'>No new messages</Text>
+                    }
+                </MenuList>
             </Menu>
             <Menu>
                 <MenuButton as={Button} bgColor={col2} rightIcon={<ChevronDownIcon color={col1} />}>

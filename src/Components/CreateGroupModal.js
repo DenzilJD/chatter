@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { ChatState } from './Contexts/ChatProvider';
 import { CloseIcon } from '@chakra-ui/icons';
 const base = 'https://chatter-backend-90rs.onrender.com';
+// const base = 'http://localhost:5000';
 
 export const CreateGroupModal = ({ children }) => {
     const { user, chats, setChats, col1, col2, col3, col4 } = ChatState();
@@ -165,7 +166,8 @@ export const CreateGroupModal = ({ children }) => {
                                 >
                                     <Text display='inline' fontSize='1.3rem'>
                                         {users.name}
-                                    </Text>{' '}
+                                    </Text>
+                                    {' '}
                                     <Text display='inline' fontSize='0.8rem'>
                                         {users.email}
                                     </Text>

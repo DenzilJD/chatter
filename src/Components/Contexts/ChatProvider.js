@@ -6,9 +6,8 @@ const ChatContext = createContext();
 export const ChatProvider = ({ children }) => {
     const [user, setUser] = useState();
     const [selChat, setSelChat] = useState();
-    const [chats, setChats] = useState();
-    const [fChats, setFChats] = useState();
-    const [notif, setNotif] = useState();
+    const [chats, setChats] = useState([]);
+    const [notif, setNotif] = useState([]);
     const navigate = useNavigate();
     const col1 = '#05445E';
     const col2 = '#189AB4';
@@ -28,7 +27,6 @@ export const ChatProvider = ({ children }) => {
             selChat, setSelChat,
             chats, setChats,
             notif, setNotif,
-            fChats, setFChats,
             col1, col2, col3, col4
         }
     }>

@@ -1,29 +1,25 @@
 import { Box, IconButton, Input, Spinner, Text, useToast } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ChatState } from './Contexts/ChatProvider'
 import { ArrowBackIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import io from 'socket.io-client';
 const ENDPOINT = 'https://chatter-backend-90rs.onrender.com';
+// const ENDPOINT = 'http://localhost:5000';
 let socket, selChatCmp;
 
 export const ChatBox = () => {
-  const { user, selChat, setSelChat, fChats, setFChats, notif, setNotif, col1, col2, col3, col4 } = ChatState();
-  const [message, setMessage] = useState();
-  const [messages, setMessages] = useState();
+  const { user, selChat, setSelChat, chats, setChats, notif, setNotif, col1, col2, col3, col4 } = ChatState();
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [connected, setConnected] = useState(false);
+  const bottomRef = useRef(null);
   const toast = useToast();
-
-  useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit('setup', user);
-    socket.on('connection', () => setConnected(true));
-  }, []);
-
+  
   const func = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       if (selChat) {
         const config = {
           headers: {
@@ -33,40 +29,52 @@ export const ChatBox = () => {
         setMessage('');
         const { data } = await axios.get(`${ENDPOINT}/api/message/${selChat._id}`, config);
         if (data)
-          setMessages(data);
-      }
-    }
-    catch (error) {
-      toast({
-        title: "Error!",
-        description: error.message,
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "top"
-      });
+        setMessages(data);
     }
     setLoading(false);
     socket.emit('join chat', selChat._id);
   }
+  catch (error) {
+    toast({
+      title: "Error!",
+      description: error.message,
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+      position: "top"
+    });
+    setLoading(false);
+  }
+}
+
+useEffect(() => {
+  if (selChat)
+  func();
+selChatCmp = selChat;
+  }, [selChat, user.token]);
 
   useEffect(() => {
-    socket.on("message recieved", newMessage => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit('setup', user);
+    socket.on('connection', () => setConnected(true));
+  }, []);
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessage) => {
       if (!selChatCmp || selChatCmp._id !== newMessage.chat._id) {
-        // if (!notif.includes(newMessage)) {
-        //   setNotif([newMessage, ...notif]);
-        // }
+        if (!notif.includes(newMessage)) {
+          setNotif([newMessage, ...notif]);
+        }
       }
       else
         setMessages([...messages, newMessage]);
     });
   });
-
-  useEffect(() => {
-    if (selChat)
-      func();
-    selChatCmp = selChat;
-  }, [selChat, user.token]);
 
   const sendMessage = async () => {
     if (message) {
@@ -84,7 +92,11 @@ export const ChatBox = () => {
         }, config);
         setMessages([...messages, data]);
         socket.emit('new message', data);
-        setFChats(!fChats);
+        if (data)
+        {
+          // console.log(data.chat);
+          // setChats([data.chat, ...chats.filter(temp => temp._id !== data.chat._id)]);
+        }
       }
       catch (error) {
         toast({
@@ -107,7 +119,6 @@ export const ChatBox = () => {
     borderRadius='lg'
     p={3}
     height='85vh'
-    border='1px solid black'
     ml={{ base: 0, md: '5px' }}
     bgColor='#189AB4'
     color='#D4F1F4'
@@ -146,29 +157,37 @@ export const ChatBox = () => {
         }
       }}
     >
-      {!loading ? messages ? messages.map(temp => {
+      {!loading ? (messages ? messages.map(temp => {
         return <Box
           key={temp._id}
           display='flex'
           justifyContent={temp.sender._id === user._id ? 'flex-end' : 'flex-start'}
           width='100%'
         >
-          <Text
+          <Box
             bgColor={temp.sender._id === user._id ? '#BEE3F8' : '#B9F5D0'}
             borderRadius='20px'
             padding='5px 15px'
             maxWidth='75%'
+            marginTop='2px'
           >
+            <Box
+              fontSize='0.7rem'
+              color={temp.sender._id === user._id ? 'red.500' : 'blue.500'}
+            >
+              {temp.sender._id === user._id ? 'You' : temp.sender.name}
+            </Box>
             {temp.content}
-          </Text>
+          </Box>
         </Box>
-      }) : '' : <Spinner
+      }) : "Say 'Hi!'") : <Spinner
         size='xl'
         w={20}
         h={20}
         alignSelf='center'
         mb='30vh'
       />}
+      <Box ref={bottomRef} />
     </Box> : 'Click/Tap on a chat to view its Messages.'}
 
     {selChat ? <Box
@@ -188,7 +207,7 @@ export const ChatBox = () => {
         bgColor='transparent'
         display='flex'
         value={message}
-        _placeholder={{color: col4}}
+        _placeholder={{ color: col4 }}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' ? sendMessage() : 0}
       />

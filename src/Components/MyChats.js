@@ -1,15 +1,15 @@
 import { AddIcon } from '@chakra-ui/icons';
-import { Box, Button, Input, Stack, Tooltip, useToast } from '@chakra-ui/react';
+import { Box, Button, Center, Input, Spinner, Stack, Tooltip, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ChatState } from './Contexts/ChatProvider';
-import { ChatLoading } from './ChatLoading';
 import { Chats } from './Chats';
 import { CreateGroupModal } from './CreateGroupModal';
 const base = 'https://chatter-backend-90rs.onrender.com';
+// const base = 'http://localhost:5000';
 
 export const MyChats = () => {
-  const { user, selChat, setSelChat, chats, setChats, fChats, col1, col2, col3, col4 } = ChatState();
+  const { user, selChat, setSelChat, chats, setChats, col1, col2, col3, col4 } = ChatState();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState();
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ export const MyChats = () => {
       }
     }
     func();
-  }, [user.token, fChats]);
+  }, [user.token]);
 
   const genChats = async (resType, t_id) => {
     setSelChat(t_id);
@@ -101,7 +101,6 @@ export const MyChats = () => {
     borderRadius='lg'
     p={3}
     height='85vh'
-    border='1px solid black'
     bgColor='#189AB4'
   >
     <Box
@@ -141,12 +140,19 @@ export const MyChats = () => {
       </CreateGroupModal>
     </Box>
     <Box display='flex'
+      justifyContent='center'
       borderRadius='lg'
       width='100%'
       height='100%'
       overflowY='hidden'
     >
-      {loading ? <ChatLoading /> : <Stack
+      {loading ? <Spinner
+        size='xl'
+        w={20}
+        h={20}
+        alignSelf='center'
+        mb='30vh'
+      /> : <Stack
         width='100%'
         overflowY='scroll'
         css={{
@@ -174,7 +180,7 @@ export const MyChats = () => {
         }) : chats ? chats.map(temp => {
           return <Chats key={temp._id} users={temp} genChats={genChats} resType="chats">
           </Chats>
-        }) : <Box>Search for a user in the Search Bar.<br/>Type words like '@gmail.com'</Box>}
+        }) : <Box>Search for a user in the Search Bar.<br />Type words like '@gmail.com'</Box>}
       </Stack>
       }
     </Box>
