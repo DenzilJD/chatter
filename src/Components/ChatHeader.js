@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react'
 import { BellIcon, ChevronDownIcon } from '@chakra-ui/icons';
-import { ChatState } from './Contexts/ChatProvider';
+import { ChatState } from '../Contexts/ChatProvider';
 import { ProfileModal } from './ProfileModal';
 import { useNavigate } from 'react-router-dom';
 

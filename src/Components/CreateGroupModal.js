@@ -1,7 +1,7 @@
 import { Box, Button, Container, FormControl, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, useDisclosure, useToast } from '@chakra-ui/react'
 import axios from 'axios';
 import React, { useState } from 'react'
-import { ChatState } from './Contexts/ChatProvider';
+import { ChatState } from '../Contexts/ChatProvider';
 import { CloseIcon } from '@chakra-ui/icons';
 const base = 'https://chatter-backend-90rs.onrender.com';
 // const base = 'http://localhost:5000';

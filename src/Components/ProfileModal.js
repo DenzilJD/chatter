@@ -1,6 +1,6 @@
 import { Box, Button, Container, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
-import { ChatState } from './Contexts/ChatProvider';
+import { ChatState } from '../Contexts/ChatProvider';
 
 export const ProfileModal = ({ user }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();

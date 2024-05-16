@@ -2,7 +2,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import { Box, Button, Center, Input, Spinner, Stack, Tooltip, useToast } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ChatState } from './Contexts/ChatProvider';
+import { ChatState } from '../Contexts/ChatProvider';
 import { Chats } from './Chats';
 import { CreateGroupModal } from './CreateGroupModal';
 const base = 'https://chatter-backend-90rs.onrender.com';

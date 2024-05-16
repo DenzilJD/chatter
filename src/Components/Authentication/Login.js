@@ -3,8 +3,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-const base = 'https://chatter-backend-90rs.onrender.com';
-// const base = 'http://localhost:5000';
+const base = process.env.BASE;
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,6 +13,7 @@ export const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
+  console.log(base);
   const submitHandler = async () => {
     setLoading(true);
     if (!email || !pass) {

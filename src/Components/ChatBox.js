@@ -1,6 +1,6 @@
 import { Box, IconButton, Input, Spinner, Text, useToast } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react'
-import { ChatState } from './Contexts/ChatProvider'
+import { ChatState } from '../Contexts/ChatProvider'
 import { ArrowBackIcon, ArrowRightIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 import io from 'socket.io-client';

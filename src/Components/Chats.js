@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react'
 import React from 'react'
-import { ChatState } from './Contexts/ChatProvider';
+import { ChatState } from '../Contexts/ChatProvider';
 
 export const Chats = ({ users, resType, genChats }) => {
     const { user, selChat, col1, col2, col3, col4 } = ChatState();
